@@ -11,6 +11,7 @@ import lombok.Getter;
 public class TimelinePostDto {
   private String memberProfilePicUrl;
   private String memberNickname;
+  private Long readBookId;
   private String bookTitle;
   private String bookAuthor;
   private String bookComment;
@@ -21,6 +22,7 @@ public class TimelinePostDto {
     return TimelinePostDto.builder()
         .memberProfilePicUrl(readBook.getMember().getProfilePicUrl())
         .memberNickname(readBook.getMember().getNickname())
+        .readBookId(readBook.getReadBookId())
         .bookTitle(readBook.getBookTitle())
         .bookAuthor(readBook.getBookAuthor())
         .bookComment(readBook.getBookComment())
