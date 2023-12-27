@@ -1,6 +1,6 @@
 package com.example.bookproject.member.controller;
 
-import com.example.bookproject.book.entity.ReadBook;
+import com.example.bookproject.book.model.ReadBookTitleDto;
 import com.example.bookproject.member.model.LoginWithKakaoRequestDto;
 import com.example.bookproject.member.model.SignupWithKakaoRequestDto;
 import com.example.bookproject.member.model.StartWithKakaoResponseDto;
@@ -25,12 +25,13 @@ public class KakaoController {
   }
 
   @PostMapping("/signup/kakao")
-  public ResponseEntity<Long> signUpWithKakao(@RequestBody SignupWithKakaoRequestDto request) {
-    return ResponseEntity.ok(kakaoService.signUpWithKakao(request));
+  public ResponseEntity<Void> signUpWithKakao(@RequestBody SignupWithKakaoRequestDto request) {
+    kakaoService.signUpWithKakao(request);
+    return ResponseEntity.ok().build();
   }
 
   @GetMapping("/login/kakao")
-  public ResponseEntity<List<ReadBook>> loginWithKakao(@RequestBody LoginWithKakaoRequestDto request) {
+  public ResponseEntity<List<ReadBookTitleDto>> loginWithKakao(@RequestBody LoginWithKakaoRequestDto request) {
     return ResponseEntity.ok(kakaoService.loginWithKakao(request.getKakaoAccessToken()));
   }
 }

@@ -1,6 +1,6 @@
 package com.example.bookproject.member.service;
 
-import com.example.bookproject.book.entity.ReadBook;
+import com.example.bookproject.book.model.ReadBookTitleDto;
 import com.example.bookproject.book.repository.ReadBookRepository;
 import com.example.bookproject.global.exception.ErrorCode;
 import com.example.bookproject.global.exception.MemberException;
@@ -12,6 +12,7 @@ import com.example.bookproject.member.model.SignupWithKakaoRequestDto;
 import com.example.bookproject.member.model.StartWithKakaoResponseDto;
 import com.example.bookproject.member.repository.MemberRepository;
 import java.util.List;
+import java.util.stream.Collectors;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.MediaType;
@@ -45,21 +46,20 @@ public class KakaoService {
         .build();
   }
 
-  public Long signUpWithKakao(SignupWithKakaoRequestDto request) {
-    Member member = memberRepository.save(Member.builder()
+  public void signUpWithKakao(SignupWithKakaoRequestDto request) {
+    memberRepository.save(Member.builder()
         .memberType(MemberType.KAKAO)
         .id(getKakaoInfoDto(restClient, request.getKakaoAccessToken()).getId())
         .nickname(request.getNickname())
         .build());
-
-    return member.getMemberId();
   }
 
-  public List<ReadBook> loginWithKakao(String kakaoAccessToken) {
+  public List<ReadBookTitleDto> loginWithKakao(String kakaoAccessToken) {
     Member member = memberRepository.findByMemberTypeAndId(MemberType.KAKAO, getKakaoInfoDto(restClient, kakaoAccessToken).getId())
         .orElseThrow(() -> new MemberException(ErrorCode.MEMBER_DOES_NOT_EXIST));
 
-    return readBookRepository.findAllByMember_MemberIdOrderByCreatedDateDesc(member.getMemberId());
+    return readBookRepository.findAllByMember_MemberIdOrderByCreatedDateDesc(member.getMemberId())
+        .stream().map(ReadBookTitleDto::fromEntity).collect(Collectors.toList());
   }
 
   private KakaoLoginDto getKakaoLoginDto(RestClient restClient, String authCode) {
