@@ -1,10 +1,12 @@
-package com.example.bookproject.service;
+package com.example.bookproject.timeline.service;
 
-import com.example.bookproject.entity.Member;
-import com.example.bookproject.model.TimelinePostDto;
-import com.example.bookproject.repository.FollowRepository;
-import com.example.bookproject.repository.MemberRepository;
-import com.example.bookproject.repository.ReadBookRepository;
+import com.example.bookproject.global.exception.ErrorCode;
+import com.example.bookproject.global.exception.MemberException;
+import com.example.bookproject.member.entity.Member;
+import com.example.bookproject.timeline.model.TimelinePostDto;
+import com.example.bookproject.member.repository.FollowRepository;
+import com.example.bookproject.member.repository.MemberRepository;
+import com.example.bookproject.book.repository.ReadBookRepository;
 import java.util.List;
 import java.util.stream.Collectors;
 import lombok.RequiredArgsConstructor;
@@ -24,12 +26,17 @@ public class TimelineService {
       lastReadBookId = Long.MAX_VALUE;
     }
 
+    Member member = memberRepository.findByMemberId(memberId)
+        .orElseThrow(() -> new MemberException(ErrorCode.MEMBER_DOES_NOT_EXIST));
+
     // 팔로우 계정 가지고 오기
     List<Member> followed = followRepository.findAllByFollowerIdAndIsAccepted(memberId, true)
-        .stream().map(follow -> memberRepository.findByMemberId(follow.getFollowedId())).collect(Collectors.toList());
+        .stream().map(follow -> memberRepository.findByMemberId(follow.getFollowedId())
+            .orElseThrow(() -> new MemberException(ErrorCode.MEMBER_DOES_NOT_EXIST))
+        ).collect(Collectors.toList());
 
     // 본인 계정 목록에 추가
-    followed.add(memberRepository.findByMemberId(memberId));
+    followed.add(member);
 
     // 포스트 가져오기
     return readBookRepository.findAllByMemberInAndReadBookIdLessThanOrderByReadBookIdDesc(followed, lastReadBookId, PageRequest.of(0, 20))

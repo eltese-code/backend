@@ -1,6 +1,6 @@
-package com.example.bookproject.model;
+package com.example.bookproject.book.model;
 
-import com.example.bookproject.constants.BookPreference;
+import com.example.bookproject.book.constants.BookPreference;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.databind.PropertyNamingStrategies;
 import com.fasterxml.jackson.databind.annotation.JsonNaming;

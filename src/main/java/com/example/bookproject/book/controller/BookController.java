@@ -1,7 +1,7 @@
-package com.example.bookproject.controller;
+package com.example.bookproject.book.controller;
 
-import com.example.bookproject.model.AddReadBookDto;
-import com.example.bookproject.service.BookService;
+import com.example.bookproject.book.model.AddReadBookDto;
+import com.example.bookproject.book.service.BookService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PathVariable;

@@ -1,10 +1,12 @@
-package com.example.bookproject.service;
+package com.example.bookproject.book.service;
 
-import com.example.bookproject.entity.Member;
-import com.example.bookproject.entity.ReadBook;
-import com.example.bookproject.model.AddReadBookDto;
-import com.example.bookproject.repository.MemberRepository;
-import com.example.bookproject.repository.ReadBookRepository;
+import com.example.bookproject.book.entity.ReadBook;
+import com.example.bookproject.book.model.AddReadBookDto;
+import com.example.bookproject.book.repository.ReadBookRepository;
+import com.example.bookproject.global.exception.ErrorCode;
+import com.example.bookproject.global.exception.MemberException;
+import com.example.bookproject.member.entity.Member;
+import com.example.bookproject.member.repository.MemberRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -15,7 +17,8 @@ public class BookService {
   private final ReadBookRepository readBookRepository;
 
   public void addReadBook(Long memberId, AddReadBookDto.Request request) {
-    Member member = memberRepository.findByMemberId(memberId);
+    Member member = memberRepository.findByMemberId(memberId)
+        .orElseThrow(() -> new MemberException(ErrorCode.MEMBER_DOES_NOT_EXIST));
 
     readBookRepository.save(ReadBook.builder()
         .member(member)

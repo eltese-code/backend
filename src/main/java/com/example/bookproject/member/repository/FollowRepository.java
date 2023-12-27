@@ -1,6 +1,6 @@
-package com.example.bookproject.repository;
+package com.example.bookproject.member.repository;
 
-import com.example.bookproject.entity.Follow;
+import com.example.bookproject.member.entity.Follow;
 import java.util.List;
 import org.springframework.data.jpa.repository.JpaRepository;
 

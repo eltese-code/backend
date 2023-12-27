@@ -1,7 +1,7 @@
-package com.example.bookproject.controller;
+package com.example.bookproject.timeline.controller;
 
-import com.example.bookproject.model.TimelinePostDto;
-import com.example.bookproject.service.TimelineService;
+import com.example.bookproject.timeline.model.TimelinePostDto;
+import com.example.bookproject.timeline.service.TimelineService;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;

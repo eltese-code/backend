@@ -1,7 +1,7 @@
-package com.example.bookproject.model;
+package com.example.bookproject.timeline.model;
 
-import com.example.bookproject.constants.BookPreference;
-import com.example.bookproject.entity.ReadBook;
+import com.example.bookproject.book.constants.BookPreference;
+import com.example.bookproject.book.entity.ReadBook;
 import java.time.LocalDate;
 import lombok.Builder;
 import lombok.Getter;
